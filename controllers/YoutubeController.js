@@ -1,5 +1,6 @@
 const YoutubeAPI = require('../apis/YoutubeAPI')
 const ParallelDotsAPI = require('../apis/ParallelDotsAPI')
+const qs = require('querystring')
 
 class YoutubeController {
     static searchByKeyWords(req, res, next) {
@@ -15,14 +16,14 @@ class YoutubeController {
     }
     static findByEmotion (req, res, next) {
         const { text } = req.body
-
+        let reqData = {
+            text : text,
+            api_key : process.env.PARALLELDOTS_KEY
+        }
         ParallelDotsAPI({
-            method: 'GET',
+            method: 'POST',
             url: '/v5/emotion',
-            data: {
-                text, 
-                api_key = process.env.PARALLELDOTS_KEY
-            }
+            data: qs.stringify(reqData)
         })
         .then(({ data }) => {
             let emotion
@@ -33,10 +34,11 @@ class YoutubeController {
                     emotion = key
                 }
             }
-            console.log(emotion)
+            res.status(200).json(emotion)
 
             /* Panggil TMDB */
         })
+        .catch(console.log)
 
 
     }
