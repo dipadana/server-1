@@ -5,7 +5,7 @@ const qs = require('querystring')
 
 class YoutubeController {
     static searchByKeyWords(req, res, next) {
-        let movieId = 420817
+        let movieId = req.params.movieId
         let temp
         TmdbAPI({
             method: 'get',
@@ -34,6 +34,7 @@ class YoutubeController {
             text : text,
             api_key : process.env.PARALLELDOTS_KEY
         }
+        let objData = {}
         ParallelDotsAPI({
             method: 'POST',
             url: '/v5/emotion',
@@ -48,6 +49,7 @@ class YoutubeController {
                     emotion = key
                 }
             }
+            objData['emotion'] = emotion
             // res.status(200).json(emotion)
         let emotObj = {
             happy: [ 36, 28, 99, 10752, 14, 27, 878, 53, 10751],
@@ -69,7 +71,8 @@ class YoutubeController {
             url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=${movieCode}`
         })
         .then (({ data }) => {
-            res.status(200).json(data)
+            objData['list'] = data
+            res.status(200).json(objData)
         })
         })
         .catch(console.log)}
