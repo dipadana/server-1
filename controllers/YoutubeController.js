@@ -1,4 +1,5 @@
 const YoutubeAPI = require('../apis/YoutubeAPI')
+const ParallelDotsAPI = require('../apis/ParallelDotsAPI')
 
 class YoutubeController {
     static searchByKeyWords(req, res, next) {
@@ -11,6 +12,33 @@ class YoutubeController {
         .catch((err) => {
             console.log(err)
         })
+    }
+    static findByEmotion (req, res, next) {
+        const { text } = req.body
+
+        ParallelDotsAPI({
+            method: 'GET',
+            url: '/v5/emotion',
+            data: {
+                text, 
+                api_key = process.env.PARALLELDOTS_KEY
+            }
+        })
+        .then(({ data }) => {
+            let emotion
+            let dominant = 0
+            for(let key in data.emotion){
+                if(data.emotion[key]>dominant){
+                    dominant = data.emotion[key]
+                    emotion = key
+                }
+            }
+            console.log(emotion)
+
+            /* Panggil TMDB */
+        })
+
+
     }
 }
 
