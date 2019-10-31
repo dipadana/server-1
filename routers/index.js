@@ -1,8 +1,7 @@
 const router = require('express').Router()
-const YoutubeRouter = require('./Youtube')
 const YoutubeController = require('../controllers/YoutubeController')
 
-router.use('/youtube', YoutubeRouter)
 router.post('/', YoutubeController.findByEmotion)
 router.get('/', YoutubeController.findMovie)
+router.get('/:movieId', YoutubeController.searchByKeyWords)
 module.exports = router
