@@ -4,4 +4,5 @@ const YoutubeController = require('../controllers/YoutubeController')
 
 router.use('/youtube', YoutubeRouter)
 router.post('/', YoutubeController.findByEmotion)
+router.get('/', YoutubeController.findMovie)
 module.exports = router
