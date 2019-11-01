@@ -3,6 +3,8 @@ const ParallelDotsAPI = require('../apis/ParallelDotsAPI')
 const TmdbAPI = require('../apis/TmdbAPI')
 const qs = require('querystring')
 
+var textEmotion
+
 class YoutubeController {
     static searchByKeyWords(req, res, next) {
         let movieId = req.params.movieId
@@ -29,8 +31,9 @@ class YoutubeController {
     static findByEmotion (req, res, next) {
         let { text, page } = req.body
         if (page == undefined) page = 1
+        if (text != undefined) textEmotion = text
         let reqData = {
-            text : text,
+            text : textEmotion,
             api_key : process.env.PARALLELDOTS_KEY
         }
         let objData = {}
