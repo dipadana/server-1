@@ -23,9 +23,7 @@ class YoutubeController {
             }
             res.status(200).json(obj)
         })
-        .catch((err) => {
-            res.status(500).json(err)
-        })
+        .catch(next)
     }
     
     static findByEmotion (req, res, next) {
@@ -50,7 +48,6 @@ class YoutubeController {
                 }
             }
             objData['emotion'] = emotion
-            // res.status(200).json(emotion)
         let emotObj = {
             happy: [ 36, 28, 99, 10752, 14, 27, 878, 53, 10751],
             sad: [ 35, 10751, 14, 10402],
@@ -75,11 +72,9 @@ class YoutubeController {
             res.status(200).json(objData)
         })
         })
-        .catch(console.log)}
-
-    static findMovie (req, res, next) {
-
+        .catch(next)
     }
+    
 }
 
 module.exports = YoutubeController
