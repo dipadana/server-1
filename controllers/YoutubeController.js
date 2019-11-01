@@ -14,7 +14,7 @@ class YoutubeController {
         .then (({ data }) => {
             temp = data
             let id = data.original_title
-            return YoutubeAPI.get(`/search?part=id&q=${id}&key=${process.env.KEY_API}`)
+            return YoutubeAPI.get(`/search?part=id&q=${id}%20trailer&key=${process.env.KEY_API}`)
         })
         .then(({ data }) => {
             let obj = {
@@ -27,7 +27,8 @@ class YoutubeController {
     }
     
     static findByEmotion (req, res, next) {
-        const { text } = req.body
+        let { text, page } = req.body
+        if (page == undefined) page = 1
         let reqData = {
             text : text,
             api_key : process.env.PARALLELDOTS_KEY
@@ -65,7 +66,7 @@ class YoutubeController {
         }
         return TmdbAPI({
             method: 'get',
-            url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=${movieCode}`
+            url: `/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&with_genres=${movieCode}&page=${page}`
         })
         .then (({ data }) => {
             objData['list'] = data
